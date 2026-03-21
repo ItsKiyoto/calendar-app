@@ -1,6 +1,7 @@
 using System.Text;
 using CalendarApp.API.Data;
 using CalendarApp.API.Models;
+using CalendarApp.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>( options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 // ── Authentication ─────────────────────────────────────────────────────────
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key not found in configuration.");
 
@@ -43,10 +46,20 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
     };
-});
+})
+.AddGoogle(options =>
+ {
+     options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+     options.CallbackPath = "/signin-google";
+     options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+     options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+ });
 
 // ── Controllers & API tooling ─────────────────────────────────────────────
 
+builder.Services.AddAuthorization();
+builder.Services.AddControllers();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
@@ -61,21 +74,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-//// Add services to the container.
-//// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
-
-//var app = builder.Build();
-
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.MapOpenApi();
-//}
-
-//app.UseHttpsRedirection();
-
-////Here?
-
-//app.Run();
