@@ -7,8 +7,8 @@ public class CalendarEvent
 	public int Id { get; set; }
 	public string Title { get; set; } = null!;
 	public string? Description { get; set; }
-	public DateTime StartTime { get; set; }
-	public DateTime EndTime { get; set; }
+	public DateTime? StartTime { get; set; }
+	public DateTime? EndTime { get; set; }
 	public string? Location { get; set; }
 	public bool IsAllDay { get; set; } = false;
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

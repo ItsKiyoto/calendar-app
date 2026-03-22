@@ -3,7 +3,6 @@ using CalendarApp.API.Models;
 using CalendarApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-//using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using System.Security.Claims;
@@ -16,13 +15,11 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
-    private readonly IConfiguration _configuration;
 
-    public AuthController(UserManager<AppUser> userManager, ITokenService tokenService, IConfiguration configuration)
+    public AuthController(UserManager<AppUser> userManager, ITokenService tokenService)
     {
         _userManager = userManager;
         _tokenService = tokenService;
-        _configuration = configuration;
     }
 
     [HttpPost("register")]
