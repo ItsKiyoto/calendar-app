@@ -24,8 +24,6 @@ builder.Services.AddIdentity<AppUser, IdentityRole>( options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<ITokenService, TokenService>();
-
 // ── Authentication ─────────────────────────────────────────────────────────
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key not found in configuration.");
 
@@ -57,9 +55,16 @@ builder.Services.AddAuthentication(options =>
  });
 
 // ── Controllers & API tooling ─────────────────────────────────────────────
-
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+
+// ── Services ──────────────────────────────────────────────────────────────
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
