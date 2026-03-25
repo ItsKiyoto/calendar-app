@@ -26,4 +26,4 @@ public class OpenMeteoHourlyDto
     public List<double> Windspeed_10m { get; set; } = [];
     public List<int> Weathercode { get; set; } = [];
 }
-}
+

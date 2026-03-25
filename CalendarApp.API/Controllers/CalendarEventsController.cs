@@ -1,7 +1,6 @@
 ﻿using CalendarApp.API.Data;
 using CalendarApp.API.DTOs;
 using CalendarApp.API.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,12 +10,10 @@ namespace CalendarApp.API.Controllers
     [Route("api/events")]
     public class CalendarEventsController : BaseApiController
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _appDbContext;
 
-        public CalendarEventsController(UserManager<AppUser> userManager, AppDbContext appDbContext)
+        public CalendarEventsController(AppDbContext appDbContext)
         {
-            _userManager = userManager;
             _appDbContext = appDbContext;
         }
 
