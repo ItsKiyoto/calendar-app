@@ -10,5 +10,7 @@ public class HourlyWeatherDto
 
     public double WindSpeed { get; set; }
     
-    public string WeatherDescription { get; set; } = string.Empty;
+    public int WeatherCode { get; set; }
+
+    //public string WeatherDescription { get; set; } = string.Empty;
 }

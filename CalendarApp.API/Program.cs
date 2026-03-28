@@ -63,6 +63,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ISuggestionService, SuggestionService>();
+
 
 
 var app = builder.Build();
