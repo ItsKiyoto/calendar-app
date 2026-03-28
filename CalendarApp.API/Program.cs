@@ -1,5 +1,6 @@
 using System.Text;
 using CalendarApp.API.Data;
+using CalendarApp.API.Middleware;
 using CalendarApp.API.Models;
 using CalendarApp.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,16 +66,29 @@ builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISuggestionService, SuggestionService>();
 
-
+// ── CORS ──────────────────────────────────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
+
+// ── Middleware pipeline ───────────────────────────────────────────────────
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+app.UseCors("DevPolicy");
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
