@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '@/components/auth/Navbar'
 import LoginModal from '@/components/auth/LoginModal'
 import RegisterModal from '@/components/auth/RegisterModal'
+import CalendarGrid from '@/components/calendar/CalendarGrid'
 
 export default function CalendarPage() {
 
@@ -22,8 +23,8 @@ export default function CalendarPage() {
       <RegisterModal 
         open={(registerOpen)}
         onClose={() => setRegisterOpen(false)} />
-      <main className="flex items-center justify-center h-[calc(100vh-65px)]">
-        <p className="text-gray-400 text-sm">Calendar coming soon</p>
+      <main className="flex items-center justify-center min-h-[calc(100vh-65px)] bg-gray-100">
+        <CalendarGrid></CalendarGrid>
       </main>
     </div>
   )
