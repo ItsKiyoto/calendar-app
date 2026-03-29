@@ -19,13 +19,18 @@ public class UserController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-        var user = await _userManager.FindByIdAsync(GetUserId());
-        if (user == null) return NotFound();
+        var userId = GetUserId();
+        if (userId == null)
+            return Unauthorized("User authentication failed.");
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) 
+            return Unauthorized("User not found.");
 
         return Ok(new UserDto
         {
             DisplayName = user.DisplayName,
-            Email = user.Email ?? string.Empty,
+            Email = user.Email,
             Latitude = user.Latitude,
             Longitude = user.Longitude
         });
