@@ -16,6 +16,21 @@ public class UserController : BaseApiController
         _userManager = userManager;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<UserDto>> GetCurrentUser()
+    {
+        var user = await _userManager.FindByIdAsync(GetUserId());
+        if (user == null) return NotFound();
+
+        return Ok(new UserDto
+        {
+            DisplayName = user.DisplayName,
+            Email = user.Email ?? string.Empty,
+            Latitude = user.Latitude,
+            Longitude = user.Longitude
+        });
+    }
+
     [HttpPatch("location")]
     public async Task<IActionResult> UpdateLocation([FromBody] LocationDto dto)
     {
