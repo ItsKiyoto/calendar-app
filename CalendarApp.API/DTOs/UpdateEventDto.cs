@@ -13,4 +13,6 @@ public class UpdateEventDto
     public string? Location { get; set; }
 
     public bool? IsAllDay { get; set; }
+
+    public string? Colour { get; set; } 
 }

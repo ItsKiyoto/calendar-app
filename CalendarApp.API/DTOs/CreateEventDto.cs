@@ -17,4 +17,6 @@ public class CreateEventDto
     public string? Location { get; set; }
     
     public bool IsAllDay { get; set; } = false;
+
+    public string Colour { get; set; } = "#3B82F6";
 }

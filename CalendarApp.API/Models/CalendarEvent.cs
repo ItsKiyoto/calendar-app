@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.ComponentModel.DataAnnotations;
 
 namespace CalendarApp.API.Models;
 
@@ -13,8 +13,10 @@ public class CalendarEvent
 	public bool IsAllDay { get; set; } = false;
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	public DateTime LastUpdatedAt { get; set; } = DateTime.UtcNow;
+    [RegularExpression(@"^#[0-9A-Fa-f]{6}$", ErrorMessage = "Colour must be a valid hex code.")]
+    public string Colour { get; set; } = "#3B82F6"; // a nice default blue
 
-	// Foreign key to associate the event with a user
-	public string UserId { get; set; } = string.Empty;
+    // Foreign key to associate the event with a user
+    public string UserId { get; set; } = string.Empty;
 	public AppUser User { get; set; } = null!;
 }
