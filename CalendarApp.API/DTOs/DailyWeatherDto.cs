@@ -8,7 +8,7 @@ public class DailyWeatherDto
 
     public double MinTemp { get; set; }
 
-    //public string WeatherDescription { get; set; } = string.Empty;
+    public string WeatherDescription { get; set; } = string.Empty;
 
     public int WeatherCode { get; set; }
 

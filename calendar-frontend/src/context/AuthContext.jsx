@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect} from 'react';
 import { login as loginRequest, register as registerRequest} from '@/api/auth'
 import { getUser } from '@/api/user'
+import { updateLocation } from '@/api/weather'
 
 const AuthContext = createContext(null)
 
@@ -45,8 +46,12 @@ export function AuthProvider({children}){
         setUser(userResponse.data)
     }
 
+    function updateUser(data) {
+        setUser(prev => ({ ...prev, ...data }))
+    }
+
     return (
-    <AuthContext.Provider value={{ login, register, user, logout, loading }}>
+    <AuthContext.Provider value={{ login, register, user, logout, loading, updateUser }}>
       {children}
     </AuthContext.Provider>
     )
