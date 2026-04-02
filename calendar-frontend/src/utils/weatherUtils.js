@@ -24,16 +24,16 @@ export function getWeatherBackground(description) {
 export function getTempColour(temp) {
   if (temp >= 0){
     const factor = (+temp) / 40 // 0 = cold blue, 1 = hot red
-    return interpolateColour('#ffffff', '#ef4444', factor)
+    return interpolateColour('#ffaeae', '#ff0000', factor)
   } else {
     const factor = (-temp) / 10 // 0 = cold blue, 1 = hot red
-    return interpolateColour('#ffffff', '#51a2ff ', factor)
+    return interpolateColour('#ffffff', '#1984ff ', factor)
   }
 }
 
 export function getPrecipColour(percent) {
     const factor = (percent - 0) / 100
-    return interpolateColour('#bae6fd', '#1e3a5f', factor)
+    return interpolateColour('#5dc6ff', '#0f2b4e', factor)
 }
 
 export function getWindColour(speed) {
@@ -53,4 +53,13 @@ function interpolateColour(colour1, colour2, factor) {
   const g = Math.round(g1 + (g2 - g1) * f)
   const b = Math.round(b1 + (b2 - b1) * f)
   return `rgb(${r}, ${g}, ${b})`
+}
+
+export function getSeverityInfo(level) {
+  switch(level) {
+    case 0: return { label: 'Info', colour: 'text-blue-500', symbol: 'ℹ️' }
+    case 1: return { label: 'Warning', colour: 'text-amber-500', symbol: '⚠️' }
+    case 2: return { label: 'Danger', colour: 'text-red-500', symbol: '🚨' }
+    default: return { label: 'Info', colour: 'text-blue-500', symbol: 'ℹ️' }
+  }
 }
