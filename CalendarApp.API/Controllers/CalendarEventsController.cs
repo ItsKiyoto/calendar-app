@@ -57,6 +57,8 @@ namespace CalendarApp.API.Controllers
                 IsAllDay = dto.IsAllDay,
                 CreatedAt = DateTime.UtcNow,
                 LastUpdatedAt = DateTime.UtcNow,
+                Colour = dto.Colour,
+                Date = dto.Date,
                 UserId = userId,
             };
 
@@ -162,7 +164,9 @@ namespace CalendarApp.API.Controllers
                 StartTime = calendarEvent.StartTime,
                 EndTime = calendarEvent.EndTime,
                 Location = calendarEvent.Location,
-                IsAllDay = calendarEvent.IsAllDay
+                IsAllDay = calendarEvent.IsAllDay,
+                Colour= calendarEvent.Colour,
+                Date= calendarEvent.Date
             };
         }
     }

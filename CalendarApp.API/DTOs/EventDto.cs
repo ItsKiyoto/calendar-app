@@ -9,4 +9,6 @@ public class EventDto
     public DateTime? EndTime { get; set; }
     public string? Location { get; set; }
     public bool IsAllDay { get; set; } 
+    public string Colour { get; set; }
+    public DateTime Date { get; set; }
 }
