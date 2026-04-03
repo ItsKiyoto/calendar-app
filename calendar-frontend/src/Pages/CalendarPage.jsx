@@ -9,6 +9,8 @@ import { useWeather } from '@/hooks/useWeather'
 import { useSuggestions } from '@/hooks/useSuggestions'
 import DayPanel from '@/components/dayPanel/DayPanel'
 import { isSameDay } from 'date-fns'
+import { useEvents } from '@/hooks/useEvents'
+
 
 
 export default function CalendarPage() {
@@ -67,6 +69,7 @@ export default function CalendarPage() {
               onClose={handleClose}
               weatherDay={selectedWeatherDay}
               suggestion={selectedSuggestion}
+              useEvents={useEvents}
             />
           </div>
         </div>

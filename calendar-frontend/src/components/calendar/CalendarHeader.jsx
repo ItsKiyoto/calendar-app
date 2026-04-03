@@ -5,9 +5,9 @@ import { Button } from '../ui/button';
 export default function CalendarHeader({currentDate, onPrev, onNext}){
 
     return (
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between ml-3 mb-6">
             <div>
-                <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Playfair Display, serif' }} >{format(currentDate, 'MMMM yyyy')}</h1>
+                <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Unna' }} >{format(currentDate, 'MMMM yyyy')}</h1>
             </div>
             <div>
                 <Button variant='ghost' size='icon' onClick={onPrev}>
