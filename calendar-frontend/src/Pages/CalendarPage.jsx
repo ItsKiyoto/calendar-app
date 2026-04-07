@@ -11,8 +11,6 @@ import DayPanel from '@/components/dayPanel/DayPanel'
 import { isSameDay } from 'date-fns'
 import { useEvents } from '@/hooks/useEvents'
 
-
-
 export default function CalendarPage() {
   const { user } = useAuth()
   const [loginOpen, setLoginOpen] = useState(false)
@@ -22,6 +20,7 @@ export default function CalendarPage() {
   const [panelDay, setPanelDay] = useState(null)
   const { weather } = useWeather()
   const { suggestions } = useSuggestions()
+  const { events, refetch } = useEvents()
 
   const selectedWeatherDay = weather?.daily?.find((w) =>
     panelDay && isSameDay(new Date(w.date), panelDay))
@@ -37,6 +36,9 @@ export default function CalendarPage() {
     setSelectedDay(null)
     // panelDay stays set so content remains during slide-out
   }
+
+  const selectedDayEvents = events?.filter(e => 
+    panelDay && isSameDay(new Date(e.date), panelDay)) ?? []
 
   useEffect(() => {
     if (user && user.latitude == null) {
@@ -69,7 +71,8 @@ export default function CalendarPage() {
               onClose={handleClose}
               weatherDay={selectedWeatherDay}
               suggestion={selectedSuggestion}
-              useEvents={useEvents}
+              refetch={refetch}
+              dayEvents={selectedDayEvents}
             />
           </div>
         </div>
@@ -82,6 +85,7 @@ export default function CalendarPage() {
           weather={weather} 
           selectedDay={selectedDay}
           onClose={handleClose}
+          events={events}
           />
         </div>
       </main>

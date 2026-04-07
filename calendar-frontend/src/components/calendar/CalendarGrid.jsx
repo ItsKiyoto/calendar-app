@@ -9,7 +9,7 @@ import CalendarCell from './CalendarCell'
 
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClose }) {
+export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClose, events }) {
     const [currentDate, setCurrentDate] = useState(new Date())
 
     const gridStart = startOfWeek(startOfMonth(currentDate), { weekStartsOn: 1 })
@@ -34,6 +34,7 @@ export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClos
                 <div className="grid grid-cols-7">
                     {days.map((day) => {
                         const weatherDay = weather?.daily?.find((w) => isSameDay(new Date(w.date), day))
+                        const dayEvents = events?.filter((e) => isSameDay(new Date(e.date), day))
                         return (
                             <CalendarCell
                                 key={day.toISOString()}
@@ -42,6 +43,7 @@ export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClos
                                 isToday={isToday(day)}
                                 weatherDay={weatherDay}
                                 selectedDay={selectedDay}
+                                dayEvents={dayEvents}
                                 onClick={() => {
                                     if (!isSameMonth(day, currentDate)) {
                                         setCurrentDate(day)

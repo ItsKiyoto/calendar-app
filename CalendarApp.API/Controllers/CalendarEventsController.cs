@@ -51,14 +51,14 @@ namespace CalendarApp.API.Controllers
             {
                 Title = dto.Title,
                 Description = dto.Description,
-                StartTime = dto.IsAllDay == false ? ToUtc(dto.StartTime) : null,
-                EndTime = dto.IsAllDay == false ? ToUtc(dto.EndTime) : null,
+                StartTime = dto.IsAllDay == false ? dto.StartTime : null,
+                EndTime = dto.IsAllDay == false ? dto.EndTime : null,
                 Location = dto.Location,
                 IsAllDay = dto.IsAllDay,
                 CreatedAt = DateTime.UtcNow,
                 LastUpdatedAt = DateTime.UtcNow,
                 Colour = dto.Colour,
-                Date = dto.Date,
+                Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc),
                 UserId = userId,
             };
 
@@ -108,21 +108,21 @@ namespace CalendarApp.API.Controllers
                     return BadRequest("Start time must be before end time.");
 
                 calendarEvent.IsAllDay = false;
-                calendarEvent.StartTime = ToUtc(dto.StartTime);
-                calendarEvent.EndTime = ToUtc(dto.EndTime);
+                calendarEvent.StartTime = (dto.StartTime);
+                calendarEvent.EndTime = (dto.EndTime);
             }
             else
             {
                 if (dto.StartTime != null || dto.EndTime != null)
                 {
-                    var newStart = ToUtc(dto.StartTime) ?? calendarEvent.StartTime;
-                    var newEnd = ToUtc(dto.EndTime) ?? calendarEvent.EndTime;
+                    var newStart = (dto.StartTime) ?? calendarEvent.StartTime;
+                    var newEnd = (dto.EndTime) ?? calendarEvent.EndTime;
 
                     if (newStart >= newEnd)
                         return BadRequest("Start time must be before end time.");
 
-                    calendarEvent.StartTime = ToUtc(dto.StartTime) ?? calendarEvent.StartTime;
-                    calendarEvent.EndTime = ToUtc(dto.EndTime) ?? calendarEvent.EndTime;
+                    calendarEvent.StartTime = (dto.StartTime) ?? calendarEvent.StartTime;
+                    calendarEvent.EndTime = (dto.EndTime) ?? calendarEvent.EndTime;
                 }
             }
 

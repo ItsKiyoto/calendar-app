@@ -20,10 +20,12 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
     const [isAllDay, setIsAllDay] = useState(editingEvent?.isAllDay ?? false)
     const [location, setLocation] = useState(editingEvent?.location ?? '')
     const [colour, setColour] = useState(editingEvent?.colour ?? '#4A90D9')
+    const [error, setError] = useState(null)
 
     const inputClass = "border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-gray-400 text-sm"
 
     const handleSave = async () => {
+        setError(null)
         const data = {
             title,
             description,
@@ -34,6 +36,10 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
             colour,
             date: format(selectedDay, 'yyyy-MM-dd')
         }
+        if (!title.trim()) {
+            setError('Please enter a title')
+            return
+        }
         try {
             if (editingEvent) {
                 await updateEvent(editingEvent.id, data)
@@ -43,7 +49,16 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
             refetch()
             onBack()
         } catch (err) {
-            console.error('Failed to save event', err)
+            const data = err.response?.data
+            if (typeof data === 'string') {
+                setError(data)
+            } else if (data?.errors) {
+                // Multiple validation errors - join them into one string
+                const messages = Object.values(data.errors).flat()
+                setError(messages[0]) // just show the first error
+            } else {
+                setError('Something went wrong, please try again')
+            }
         }
     }
 
@@ -99,6 +114,9 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
                         />
                     ))}
                 </div>
+            </div>
+            <div>
+                {error && <p className="text-xs text-red-500 text-center">{error}</p>}
             </div>
 
             <Button className="w-full mt-auto" onClick={handleSave}>
