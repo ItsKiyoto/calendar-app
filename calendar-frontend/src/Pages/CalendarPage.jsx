@@ -10,6 +10,7 @@ import { useSuggestions } from '@/hooks/useSuggestions'
 import DayPanel from '@/components/dayPanel/DayPanel'
 import { isSameDay } from 'date-fns'
 import { useEvents } from '@/hooks/useEvents'
+import { useUKHolidays } from '@/hooks/useUKHolidays'
 
 export default function CalendarPage() {
   const { user } = useAuth()
@@ -21,11 +22,18 @@ export default function CalendarPage() {
   const { weather } = useWeather()
   const { suggestions } = useSuggestions()
   const { events, refetch } = useEvents()
-
+  const { holidays } = useUKHolidays()
+  
+  console.log(holidays)
   const selectedWeatherDay = weather?.daily?.find((w) =>
     panelDay && isSameDay(new Date(w.date), panelDay))
+  
   const selectedSuggestion = suggestions?.find((s) =>
     panelDay && isSameDay(new Date(s.date), panelDay))
+  
+  const selectedDayHolidays = holidays?.filter((h) => 
+    panelDay && isSameDay(new Date(h.date), panelDay)) ?? []
+  
 
   const handleDaySelect = (day) => {
     setPanelDay(day)
@@ -73,6 +81,7 @@ export default function CalendarPage() {
               suggestion={selectedSuggestion}
               refetch={refetch}
               dayEvents={selectedDayEvents}
+              selectedDayHolidays={selectedDayHolidays}
             />
           </div>
         </div>
@@ -86,6 +95,7 @@ export default function CalendarPage() {
           selectedDay={selectedDay}
           onClose={handleClose}
           events={events}
+          holidays={holidays}
           />
         </div>
       </main>

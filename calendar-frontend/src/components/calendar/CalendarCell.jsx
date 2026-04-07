@@ -1,7 +1,7 @@
 import { format, isSameDay } from 'date-fns'
 import { getWeatherBackground, getTempColour, getPrecipColour, getWindColour } from '@/utils/weatherUtils'
 
-export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay, onClick, selectedDay, dayEvents }) {
+export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay, onClick, selectedDay, dayEvents, dayHolidays }) {
   const background = weatherDay
     ? getWeatherBackground(weatherDay.weatherDescription)
     : 'transparent'
@@ -10,12 +10,12 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
     <div className={`flex flex-col h-full relative p-2 border overflow-hidden cursor-pointer transition-colors duration-100
           ${selectedDay && isSameDay(day, selectedDay) ? 'border-red-400' : isToday ? 'border-blue-400' : 'border-gray-100'}
           hover:bg-gray-100 `}
-          onClick={onClick}
-        style={{
-          height: 'calc((100vh - 220px) / 6)',
-          ...(weatherDay ? { backgroundColor: background } : {}),
-        }}
-        >
+      onClick={onClick}
+      style={{
+        height: 'calc((100vh - 220px) / 6)',
+        ...(weatherDay ? { backgroundColor: background } : {}),
+      }}
+    >
       <div
         className='flex justify-between items-start pb-1'
       >
@@ -33,7 +33,17 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
           </span>
         )}
       </div>
+
       <div className={'flex flex-col gap-0.5 '}>
+        {dayHolidays?.map(h => (
+          <div
+            key={h.title}
+            className="rounded-sm text-xs px-1 text-white truncate border-2 border-blue-900"
+            style={{ backgroundColor: '#d3263a' }}
+          >
+            {h.title}
+          </div>
+        ))}
         {dayEvents?.map(e => (
           <div className={'rounded-sm text-xs truncate px-1 text-white'}
             style={{ backgroundColor: e.colour }}
