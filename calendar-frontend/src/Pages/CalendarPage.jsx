@@ -23,17 +23,17 @@ export default function CalendarPage() {
   const { suggestions } = useSuggestions()
   const { events, refetch } = useEvents()
   const { holidays } = useUKHolidays()
-  
-  console.log(holidays)
+
+  // console.log(holidays)
   const selectedWeatherDay = weather?.daily?.find((w) =>
     panelDay && isSameDay(new Date(w.date), panelDay))
-  
+
   const selectedSuggestion = suggestions?.find((s) =>
     panelDay && isSameDay(new Date(s.date), panelDay))
-  
-  const selectedDayHolidays = holidays?.filter((h) => 
+
+  const selectedDayHolidays = holidays?.filter((h) =>
     panelDay && isSameDay(new Date(h.date), panelDay)) ?? []
-  
+
 
   const handleDaySelect = (day) => {
     setPanelDay(day)
@@ -42,10 +42,9 @@ export default function CalendarPage() {
 
   const handleClose = () => {
     setSelectedDay(null)
-    // panelDay stays set so content remains during slide-out
   }
 
-  const selectedDayEvents = events?.filter(e => 
+  const selectedDayEvents = events?.filter(e =>
     panelDay && isSameDay(new Date(e.date), panelDay)) ?? []
 
   useEffect(() => {
@@ -87,15 +86,14 @@ export default function CalendarPage() {
         </div>
 
         {/* Calendar - fixed width, never shrinks */}
-        <div className={`shrink-0 transition-all duration-300 ease-in-out
-  ${selectedDay ? 'w-[calc(100vw-380px)]' : 'w-[calc(100vw-80px)]'} max-w-5xl`}>
-          <CalendarGrid 
-          onDaySelect={handleDaySelect} 
-          weather={weather} 
-          selectedDay={selectedDay}
-          onClose={handleClose}
-          events={events}
-          holidays={holidays}
+        <div className={`min-w-0 flex-1 transition-all duration-300 ease-in-out max-w-5xl`}>
+          <CalendarGrid
+            onDaySelect={handleDaySelect}
+            weather={weather}
+            selectedDay={selectedDay}
+            onClose={handleClose}
+            events={events}
+            holidays={holidays}
           />
         </div>
       </main>

@@ -29,13 +29,19 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
     const [eventsOpen, setEventsOpen] = useState(false)
 
     useEffect(() => {
+        setView('day')
+        setEventsOpen(false)
+        setEditingEvent(null)
+    }, [selectedDay])
+
+    useEffect(() => {
         const interval = setInterval(() => setNow(new Date()), 30000)
         return () => clearInterval(interval)
     }, [])
 
     // Effect 2: scrolls to current time when day is selected
     useEffect(() => {
-        console.log(selectedDayHolidays)
+        // console.log(selectedDayHolidays)
         if (!selectedDay) return
         const timer = setTimeout(() => {
             if (timelineRef.current && isToday(selectedDay)) {
@@ -85,8 +91,13 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
     }
 
     return (
-        <div className="w-96 shrink-0 bg-white rounded-2xl shadow-sm p-4 flex flex-col gap-3"
-            style={{ maxHeight: 'calc(100vh - 96px)' }}>
+        <div className="w-96 shrink-0 bg-white rounded-2xl shadow-sm p-4 flex flex-col gap-3 overflow-hidden"
+            style={{
+                height: eventsOpen ? 'calc(100vh - 96px)' : 'auto',
+                maxHeight: 'calc(100vh - 96px)'
+            }}>
+            
+            {/* Conditional back button for if its on the Event Form */}
             <div className="flex justify-between items-center">
                 {view === 'form' ? (
                     <Button variant="ghost" size="icon" onClick={handleBack}>
@@ -101,8 +112,9 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
                     <X className="w-4 h-4" />
                 </Button>
             </div>
+
             {view === 'form' ? (
-                <div>
+                <div className="flex flex-col min-h-0 overflow-y-auto flex-1">
                     <EventForm selectedDay={selectedDay}
                         onBack={handleBack}
                         refetch={refetch}
@@ -110,67 +122,75 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
                     ></EventForm>
                 </div>
             ) : eventsOpen ? (
-                <div className="flex flex-col gap-2 flex-1 overflow-y-auto">
+                <>
                     <div className='text-xl'>Events:</div>
-                    {selectedDayHolidays?.map(h => (
-                        <div className='flex flex-col rounded-sm' >
-                            <div
-                                key={h.title}
-                                className="flex flex-row justify-between items-center rounded-sm text-white truncate border-2 border-blue-900"
-                                style={{ backgroundColor: '#d3263a' }}
-                            >
-                                <span className="pl-1">{h.title}</span>
-                                <span className='opacity-70 pr-1' >Bank Holiday</span>
-                            </div>
-                        </div>
-                    ))}
-                    {dayEvents?.map(e => (
-                        <div key={e.id} className='flex flex-col rounded-sm text-white' style={{ backgroundColor: e.colour }}>
-                            <div className='flex flex-row justify-between items-center'>
-                                <span className="text-m pl-1">{e.title}</span>
-                                {e.isAllDay ? (<span className="opacity-70 mr-1">All Day</span>) : (<span className="opacity-70 mr-1">{formatTime(e.startTime)} - {formatTime(e.endTime)}</span>)}
-                                <div>
-                                    <Button className='bg-transparent hover:opacity-50'
-                                        size='icon'
-                                        onClick={() => handleEdit(e)} >
-                                        <PencilLine className="w-4 h-4" ></PencilLine>
-                                    </Button>
-
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button className='bg-transparent hover:opacity-50' size='icon'>
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Delete event?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This will permanently delete "{e.title}". This action cannot be undone.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => handleDelete(e.id)}>
-                                                    Delete
-                                                </AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                    <div className="flex flex-col gap-2 flex-1 overflow-y-auto min-h-0">
+                        {selectedDayHolidays?.map(h => (
+                            <div className='flex flex-col rounded-sm' >
+                                <div
+                                    key={h.title}
+                                    className="flex flex-row justify-between items-center rounded-sm text-white truncate border-2 border-blue-900"
+                                    style={{ backgroundColor: '#d3263a' }}
+                                >
+                                    <span className="pl-1">{h.title}</span>
+                                    <span className='opacity-70 pr-1' >Bank Holiday</span>
                                 </div>
                             </div>
-                            {e.description ? (<span className="text-sm ml-1">{e.description}</span>) : ""}
-                            {e.location ? (<span className="font-small ml-1">{e.location}</span>) : ""}
-                        </div>
+                        ))}
+                        {dayEvents?.map(e => (
+                            <div key={e.id} className='flex flex-col rounded-sm text-white' style={{ backgroundColor: e.colour }}>
+                                <div className='flex flex-row justify-between items-center'>
+                                    <span className="text-m pl-1">{e.title}</span>
+                                    {e.isAllDay ? (<span className="opacity-70 mr-1">All Day</span>) : (<span className="opacity-70 mr-1">{formatTime(e.startTime)} - {formatTime(e.endTime)}</span>)}
+                                    <div>
+                                        <Button className='bg-transparent hover:opacity-50'
+                                            size='icon'
+                                            onClick={() => handleEdit(e)} >
+                                            <PencilLine className="w-4 h-4" ></PencilLine>
+                                        </Button>
 
-                    )
-                    )}
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button className='bg-transparent hover:opacity-50' size='icon'>
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Delete event?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This will permanently delete "{e.title}". This action cannot be undone.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={() => handleDelete(e.id)}>
+                                                        Delete
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </div>
+                                </div>
+                                {e.description ? (<span className="text-sm ml-1">{e.description}</span>) : ""}
+                                {e.location ? (<span className="font-small ml-1">{e.location}</span>) : ""}
+                            </div>
+
+                        )
+                        )}
+                    </div>
+                    <Button variant="outline"
+                        className="w-full text-sm"
+                        size="sm"
+                        onClick={handleAddEvent}>
+                        + Add event
+                    </Button>
                     <button onClick={() => setEventsOpen(!eventsOpen)}
                         className="flex flex-col items-center gap-1 w-full py-2 text-gray-400 hover:text-gray-600 transition-colors">
                         <span className="text-xs uppercase tracking-wide">{eventsOpen ? <>Timeline</> : <>Events</>}</span>
                         {eventsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
-                </div>
+                </>
             ) : (
                 <>
                     {/* Date left, weather right */}
@@ -219,6 +239,7 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
                         )
                     })()}
 
+                    {/* All day events */}
                     {(allDayEvents.length > 0 || selectedDayHolidays.length > 0) && (
 
                         <div className='flex flex-col gap-1'>
@@ -293,6 +314,7 @@ export default function DayPanel({ selectedDay, onClose, weatherDay, suggestion,
                         <span className="text-xs uppercase tracking-wide">{eventsOpen ? <>Timeline</> : <>Events</>}</span>
                         {eventsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
+
                 </>
             )
             }

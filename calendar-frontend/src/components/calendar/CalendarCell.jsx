@@ -6,6 +6,16 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
     ? getWeatherBackground(weatherDay.weatherDescription)
     : 'transparent'
 
+  const allItems = [
+    ...(dayHolidays ?? []).map(h => ({ type: 'holiday', key: h.title, label: h.title, colour: '#d3263a', border: true })),
+    ...(dayEvents ?? []).map(e => ({ type: 'event', key: e.id, label: e.title, colour: e.colour, border: false }))
+  ];
+
+  const MAX_PILLS = 2;
+  const visible = allItems.slice(0, MAX_PILLS);
+  const overflow = allItems.length - MAX_PILLS;
+  const hidden = allItems.slice(MAX_PILLS);
+
   return (
     <div className={`flex flex-col h-full relative p-2 border overflow-hidden cursor-pointer transition-colors duration-100
           ${selectedDay && isSameDay(day, selectedDay) ? 'border-red-400' : isToday ? 'border-blue-400' : 'border-gray-100'}
@@ -34,24 +44,23 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
         )}
       </div>
 
-      <div className={'flex flex-col gap-0.5 '}>
-        {dayHolidays?.map(h => (
+      <div className="absolute bottom-1 left-1 right-1 flex flex-col gap-0.5">
+        {visible.map(item => (
           <div
-            key={h.title}
-            className="rounded-sm text-xs px-1 text-white truncate border-2 border-blue-900"
-            style={{ backgroundColor: '#d3263a' }}
+            key={item.key}
+            className={`rounded-sm text-xs px-1 text-white truncate ${item.border ? 'border-2 border-blue-900' : ''}`}
+            style={{ backgroundColor: item.colour }}
           >
-            {h.title}
+            {item.label}
           </div>
         ))}
-        {dayEvents?.map(e => (
-          <div className={'rounded-sm text-xs truncate px-1 text-white'}
-            style={{ backgroundColor: e.colour }}
-            key={e.id}
-          >
-            {e.title}
+        {hidden.length > 0 && (
+          <div className="flex gap-0.5 px-1">
+            {hidden.slice(0, 3).map((item) => (
+              <div key={item.key} className="w-1 h-1 rounded-full" style={{ backgroundColor: item.colour }} />
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
 
