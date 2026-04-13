@@ -11,7 +11,7 @@ const COLOURS = [
     '#9B59B6', '#1ABC9C', '#E67E22', '#E91E8C'
 ]
 
-export default function EventForm({ selectedDay, onBack, refetch, editingEvent }) {
+export default function EventForm({ selectedDay, onBack, refetch, editingEvent}) {
 
     const [title, setTitle] = useState(editingEvent?.title ?? '')
     const [description, setDescription] = useState(editingEvent?.description ?? '')
@@ -63,7 +63,9 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
     }
 
     return (
-        <div className="flex flex-col gap-4 flex-1 overflow-y-auto">
+        <div className="flex flex-col gap-4 overflow-y-auto animate-fade-in"
+        key={selectedDay?.toISOString()}
+        >
             {/* <p className="text-xs text-gray-400 -mt-2">
                 {format(selectedDay, 'EEEE do MMMM yyyy')}
             </p> */}
@@ -119,7 +121,7 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent }
                 {error && <p className="text-xs text-red-500 text-center">{error}</p>}
             </div>
 
-            <Button className="w-full mt-auto" onClick={handleSave}>
+            <Button className="w-full" onClick={handleSave}>
                 {editingEvent ? 'Save changes' : 'Create event'}
             </Button>
         </div>

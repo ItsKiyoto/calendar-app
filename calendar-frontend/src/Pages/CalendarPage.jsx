@@ -31,9 +31,11 @@ export default function CalendarPage() {
   const selectedSuggestion = suggestions?.find((s) =>
     panelDay && isSameDay(new Date(s.date), panelDay))
 
+  const selectedDayEvents = events?.filter(e =>
+    panelDay && isSameDay(new Date(e.date), panelDay)) ?? []
+
   const selectedDayHolidays = holidays?.filter((h) =>
     panelDay && isSameDay(new Date(h.date), panelDay)) ?? []
-
 
   const handleDaySelect = (day) => {
     setPanelDay(day)
@@ -44,8 +46,6 @@ export default function CalendarPage() {
     setSelectedDay(null)
   }
 
-  const selectedDayEvents = events?.filter(e =>
-    panelDay && isSameDay(new Date(e.date), panelDay)) ?? []
 
   useEffect(() => {
     if (user && user.latitude == null) {

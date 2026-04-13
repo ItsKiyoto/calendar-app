@@ -31,7 +31,9 @@ export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClos
                         </div>
                     ))}
                 </div>
-                <div className="grid grid-cols-7">
+                <div 
+                key={`${currentDate.getFullYear()}-${currentDate.getMonth()}`}
+                className="grid grid-cols-7 animate-fade-in">
                     {days.map((day) => {
                         const weatherDay = weather?.daily?.find((w) => isSameDay(new Date(w.date), day))
                         const dayEvents = events?.filter((e) => isSameDay(new Date(e.date), day))
