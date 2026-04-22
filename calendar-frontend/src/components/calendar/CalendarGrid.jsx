@@ -23,10 +23,10 @@ export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClos
                 onPrev={() => setCurrentDate(subMonths(currentDate, 1))}
                 onNext={() => setCurrentDate(addMonths(currentDate, 1))}
             />
-            <div className="bg-white rounded-2xl shadow-sm p-4">
+            <div className="bg-card rounded-2xl shadow-sm p-4">
                 <div className="grid grid-cols-7">
                     {DAY_NAMES.map((name) => (
-                        <div key={name} className="text-xs font-medium text-gray-400 text-center py-2">
+                        <div key={name} className="text-xs font-medium text-muted-foreground text-center py-2">
                             {name}
                         </div>
                     ))}

@@ -54,7 +54,7 @@ export default function CalendarPage() {
   }, [user])
 
   return (
-    <div className="h-screen bg-blue-100 flex flex-col">
+    <div className="h-screen flex flex-col">
       {/* Navbar always at top */}
       <Navbar
         onLoginClick={() => setLoginOpen(true)}

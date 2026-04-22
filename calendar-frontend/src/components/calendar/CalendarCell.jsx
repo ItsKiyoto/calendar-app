@@ -7,19 +7,19 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
     : 'transparent'
 
   const allItems = [
-    ...(dayHolidays ?? []).map(h => ({ type: 'holiday', key: h.title, label: h.title, colour: '#d3263a', border: true })),
+    ...(dayHolidays ?? []).map(h => ({ type: 'holiday', key: h.title, label: h.title, border: true })),
     ...(dayEvents ?? []).map(e => ({ type: 'event', key: e.id, label: e.title, colour: e.colour, border: false }))
   ];
 
   const MAX_PILLS = 2;
   const visible = allItems.slice(0, MAX_PILLS);
-  const overflow = allItems.length - MAX_PILLS;
   const hidden = allItems.slice(MAX_PILLS);
 
   return (
+    // Cell border - Today and other days
     <div className={`flex flex-col h-full relative p-2 border overflow-hidden cursor-pointer transition-colors duration-100
-          ${selectedDay && isSameDay(day, selectedDay) ? 'border-red-400' : isToday ? 'border-blue-400' : 'border-gray-100'}
-          hover:bg-gray-100 `}
+          ${isToday ? 'border' : 'border-muted'}
+          ${weatherDay ? 'hover:brightness-95' : 'hover:bg-muted'}`}
       onClick={onClick}
       style={{
         height: 'calc((100vh - 220px) / 6)',
@@ -27,10 +27,12 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
       }}
     >
       <div
-        className='flex justify-between items-start pb-1'
+        className='flex justify-between items-start'
       >
         {/* Date number - top left */}
-        <span className={`text-sm font-medium ${isToday ? 'text-blue-500' : !isCurrentMonth ? 'text-gray-300' : 'text-gray-800'}`}
+        <span 
+          className={`w-5 h- text-sm font-medium rounded-full flex items-center justify-center 
+            ${selectedDay && isSameDay(day, selectedDay) ? 'text-white bg-accent rounded-full' : isToday ? 'text-border': !isCurrentMonth ? 'text-muted' : 'text-primary'}`}
           style={{ textShadow: weatherDay ? '0 0 3px rgba(255,255,255,0.9)' : 'none' }}>
           {format(day, 'd')}
         </span>
@@ -48,7 +50,7 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
         {visible.map(item => (
           <div
             key={item.key}
-            className={`rounded-sm text-xs px-1 text-white truncate ${item.border ? 'border-2 border-blue-900' : ''}`}
+            className={`rounded-sm text-xs px-1 text-white truncate ${item.border ? 'border-2 national' : ''}`}
             style={{ backgroundColor: item.colour }}
           >
             {item.label}
