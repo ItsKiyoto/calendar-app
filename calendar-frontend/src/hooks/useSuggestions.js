@@ -14,7 +14,7 @@ export function useSuggestions(){
                 if (user && user.latitude != null){
                     try {
                         const response = await getWeatherSuggestions()
-                        setSuggestions(response.data)
+                        setSuggestions(response)
                     } catch (err) {
                         setError(err)
                     }

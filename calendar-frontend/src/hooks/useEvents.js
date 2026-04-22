@@ -13,7 +13,7 @@ export function useEvents() {
         if (!user) return
         try {
             const response = await getEvents()
-            setEvents(response.data)
+            setEvents(response)
         } catch (err) {
             setError(err)
         } finally {

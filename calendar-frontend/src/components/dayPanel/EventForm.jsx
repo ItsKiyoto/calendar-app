@@ -50,13 +50,10 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent})
             refetch()
             onBack()
         } catch (err) {
-            const data = err.response?.data
+            console.log(err.data)
+            const data = err.data
             if (typeof data === 'string') {
                 setError(data)
-            } else if (data?.errors) {
-                // Multiple validation errors - join them into one string
-                const messages = Object.values(data.errors).flat()
-                setError(messages[0]) // just show the first error
             } else {
                 setError('Something went wrong, please try again')
             }

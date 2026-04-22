@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
             if (token) {
                 try {
                     const response = await getUser()
-                    setUser(response.data)
+                    setUser(response)
                 } catch {
                     localStorage.removeItem('token')
                 }
@@ -27,10 +27,10 @@ export function AuthProvider({ children }) {
 
     async function login(data) {
         const response = await loginRequest(data)
-        const { token } = response.data
+        const { token } = response
         localStorage.setItem('token', token)
         const userResponse = await getUser()
-        setUser(userResponse.data)
+        setUser(userResponse)
     }
 
     function logout() {
@@ -39,11 +39,11 @@ export function AuthProvider({ children }) {
     }
 
     async function register(data) {
-        const response = await registerRequest(data)
-        const { token } = response.data
+        const response = await registerRequest(data) //
+        const { token } = response
         localStorage.setItem('token', token)
-        const userResponse = await getUser()
-        setUser(userResponse.data)
+        const userResponse = await getUser() //
+        setUser(userResponse)
     }
 
     function updateUser(data) {

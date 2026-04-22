@@ -17,7 +17,7 @@ export function useWeather(){
                         const response = await getWeather()
                         // console.log('weather response', response.data)
                         // console.log('daily sample:', response.data.daily[0])
-                        setWeather(response.data)
+                        setWeather(response)
                     } catch (err) {
                         setError(err)
                     }

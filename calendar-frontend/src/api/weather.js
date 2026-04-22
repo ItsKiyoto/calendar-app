@@ -1,6 +1,13 @@
-import client from './client'
+// import client from './client'
+import { apiFetch } from './client'
 
-export const getWeather = () => client.get('/api/weather')
-export const getWeatherSuggestions = () => client.get('/api/weather/suggestions')
-export const updateLocation = (lat, lng) =>
-  client.patch('/api/user/location', { Latitude: lat, Longitude: lng })
+export const getWeather = () => apiFetch('/api/weather').then(res => res.json())
+
+export const getWeatherSuggestions = () => apiFetch('api/weather/suggestions').then(res => res.json())
+
+export const updateLocation = (lat, lng) => apiFetch('api/user/location', {
+  method : 'PATCH',
+  body : JSON.stringify({Latitiude: lat, Longitude: lng})
+}).then(res => res.json())
+
+

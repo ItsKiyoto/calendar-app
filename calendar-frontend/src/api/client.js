@@ -1,26 +1,29 @@
-import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://localhost:7289'
 
-const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'https://localhost:7289',
-})
-
-client.interceptors.request.use((config) => {
+export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
 
-client.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      window.location.href = '/login'
-    }
-    return Promise.reject(error)
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...options.headers,
   }
-)
 
-export default client
+  const response = await fetch(`${BASE_URL}${path}`, { ...options, headers })
+
+  if (response.status === 401) {
+    localStorage.removeItem('token')
+    window.location.href = '/'
+  }
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => null)
+    const error = new Error('API error')
+    error.status = response.status
+    error.data = errorBody
+    throw error
+  }
+  return response
+}
+
+export default apiFetch
