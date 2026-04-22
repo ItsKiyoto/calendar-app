@@ -46,7 +46,6 @@ export default function CalendarPage() {
     setSelectedDay(null)
   }
 
-
   useEffect(() => {
     if (user && user.latitude == null) {
       setLocationOpen(true)

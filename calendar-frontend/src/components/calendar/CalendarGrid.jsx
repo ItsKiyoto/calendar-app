@@ -16,12 +16,16 @@ export default function CalendarGrid({ onDaySelect, weather, selectedDay, onClos
     const gridEnd = endOfWeek(endOfMonth(currentDate), { weekStartsOn: 1 })
     const days = eachDayOfInterval({ start: gridStart, end: gridEnd })
 
+    // const isCurrentMonth = isSameMonth(currentDate, new Date())
+
     return (
         <div className="w-full">
             <CalendarHeader
                 currentDate={currentDate}
                 onPrev={() => setCurrentDate(subMonths(currentDate, 1))}
                 onNext={() => setCurrentDate(addMonths(currentDate, 1))}
+                isCurrentMonth={isSameMonth(currentDate, new Date())}
+                setCurrentMonth={() => setCurrentDate(new Date())}
             />
             <div className="bg-card rounded-2xl shadow-sm p-4">
                 <div className="grid grid-cols-7">
