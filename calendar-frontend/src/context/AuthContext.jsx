@@ -12,12 +12,19 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         async function loadUser() {
             const token = localStorage.getItem('token')
+            const loginTime = localStorage.getItem('loginTime')
             if (token) {
-                try {
-                    const response = await getUser()
-                    setUser(response)
-                } catch {
+                if (Date.now() - loginTime > 3600000) {
                     localStorage.removeItem('token')
+                    localStorage.removeItem('loginTime')
+                } else {
+                    try {
+                        const response = await getUser()
+                        setUser(response)
+                    } catch {
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('loginTime')
+                    }
                 }
             }
             setLoading(false)
@@ -25,25 +32,39 @@ export function AuthProvider({ children }) {
         loadUser()
     }, [])
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const loginTime = localStorage.getItem('loginTime')
+            if (Date.now() - loginTime > 3600000) {
+                logout()
+            }
+        }, 60000)
+
+        return () => clearInterval(interval) // cleanup on unmount
+    }, [logout])
+
+    async function register(data) {
+        const response = await registerRequest(data) //
+        const { token } = response
+        localStorage.setItem('token', token)
+        localStorage.setItem('loginTime', Date.now())
+        const userResponse = await getUser() //
+        setUser(userResponse)
+    }
+
     async function login(data) {
         const response = await loginRequest(data)
         const { token } = response
         localStorage.setItem('token', token)
+        localStorage.setItem('loginTime', Date.now())
         const userResponse = await getUser()
         setUser(userResponse)
     }
 
     function logout() {
         localStorage.removeItem('token')
+        localStorage.removeItem('loginTime')
         setUser(null)
-    }
-
-    async function register(data) {
-        const response = await registerRequest(data) //
-        const { token } = response
-        localStorage.setItem('token', token)
-        const userResponse = await getUser() //
-        setUser(userResponse)
     }
 
     function updateUser(data) {
