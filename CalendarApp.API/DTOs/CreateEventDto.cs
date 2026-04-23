@@ -18,7 +18,7 @@ public class CreateEventDto
     
     public bool IsAllDay { get; set; } = false;
 
-    public string Colour { get; set; } = "#3B82F6";
+    public string Colour { get; set; } = "#E15554";
 
     public DateTime Date { get; set; }
 }

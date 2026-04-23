@@ -10,6 +10,6 @@ export const createEvent = (data) => apiFetch('/api/events', {
 export const updateEvent = (id, data) => apiFetch(`/api/events/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(data)
-}).then(res => res.json())
+})
 
 export const deleteEvent = (id) => apiFetch(`/api/events/${id}`, { method: 'DELETE' })
