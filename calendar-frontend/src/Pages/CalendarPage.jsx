@@ -24,7 +24,6 @@ export default function CalendarPage() {
   const { events, refetch } = useEvents()
   const { holidays } = useUKHolidays()
 
-  // console.log(holidays)
   const selectedWeatherDay = weather?.daily?.find((w) =>
     panelDay && isSameDay(new Date(w.date), panelDay))
 

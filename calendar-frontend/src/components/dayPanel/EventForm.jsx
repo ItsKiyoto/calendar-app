@@ -50,7 +50,6 @@ export default function EventForm({ selectedDay, onBack, refetch, editingEvent})
             refetch()
             onBack()
         } catch (err) {
-            console.log(err.data)
             const data = err.data
             if (typeof data === 'string') {
                 setError(data)
