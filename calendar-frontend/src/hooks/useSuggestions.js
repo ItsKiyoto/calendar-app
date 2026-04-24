@@ -17,10 +17,19 @@ export function useSuggestions() {
         console.log('suggestions refreshed')
     }
 
+
+
     useEffect(() => {
         async function fetchSuggestions() {
             const suggestionsCache = localStorage.getItem('suggestions')
             const suggestionsTime = localStorage.getItem('suggestionsTime')
+
+            if (!user) {
+                setSuggestions(null)
+                setLoading(false)
+                return
+            }
+            
             if (user && user.latitude != null) {
                 if (suggestionsCache && Date.now() - suggestionsTime < 3600000) {
                     setSuggestions(JSON.parse(suggestionsCache))
@@ -35,6 +44,7 @@ export function useSuggestions() {
                     }
                 }
             }
+            // setSuggestions(null)
             setLoading(false)
         }
         fetchSuggestions();

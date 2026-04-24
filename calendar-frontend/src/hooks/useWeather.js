@@ -18,8 +18,16 @@ export function useWeather() {
 
     }
 
+
+
     useEffect(() => {
         async function fetchWeather() {
+            if (!user) {
+                setWeather(null)
+                setLoading(false)
+                return
+            }
+
             if (user && user.latitude != null) {
                 const weatherInfo = localStorage.getItem('weatherInfo')
                 const weatherTime = localStorage.getItem('weatherTime')
@@ -36,6 +44,7 @@ export function useWeather() {
                     }
                 }
             }
+            // setWeather(null)
             setLoading(false)
         }
         fetchWeather();

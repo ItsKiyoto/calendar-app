@@ -9,7 +9,15 @@ export function useEvents() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
+
+
     const fetchEvents = useCallback(async () => {
+        if (!user) {
+            setEvents(null)
+            setLoading(false)
+            return
+        }
+
         if (!user) return
         try {
             const response = await getEvents()
@@ -17,6 +25,7 @@ export function useEvents() {
         } catch (err) {
             setError(err)
         } finally {
+            // setEvents(null)
             setLoading(false)
         }
     }, [user])

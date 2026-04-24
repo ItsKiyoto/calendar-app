@@ -64,6 +64,10 @@ export function AuthProvider({ children }) {
     function logout() {
         localStorage.removeItem('token')
         localStorage.removeItem('loginTime')
+        localStorage.removeItem('weatherInfo')
+        localStorage.removeItem('weatherTime')
+        localStorage.removeItem('suggestions')
+        localStorage.removeItem('suggestionsTime')
         setUser(null)
     }
 
