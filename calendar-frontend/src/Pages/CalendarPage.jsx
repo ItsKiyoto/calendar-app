@@ -11,6 +11,7 @@ import DayPanel from '@/components/dayPanel/DayPanel'
 import { isSameDay } from 'date-fns'
 import { useEvents } from '@/hooks/useEvents'
 import { useUKHolidays } from '@/hooks/useUKHolidays'
+import ProfilePanel from '@/components/auth/ProfilePanel'
 
 export default function CalendarPage() {
   const { user } = useAuth()
@@ -19,8 +20,9 @@ export default function CalendarPage() {
   const [locationOpen, setLocationOpen] = useState(false)
   const [selectedDay, setSelectedDay] = useState(null)
   const [panelDay, setPanelDay] = useState(null)
-  const { weather } = useWeather()
-  const { suggestions } = useSuggestions()
+  const [profileOpen, setProfileOpen] = useState(false)
+  const { weather, refresh: refreshWeather } = useWeather()
+  const { suggestions, refresh: refreshSuggestions } = useSuggestions()
   const { events, refetch } = useEvents()
   const { holidays } = useUKHolidays()
 
@@ -45,6 +47,16 @@ export default function CalendarPage() {
     setSelectedDay(null)
   }
 
+  const handleProfileOpen = () => {
+    setProfileOpen(true)
+    setSelectedDay(null)
+  }
+
+  const handleRefresh = () => {
+    refreshWeather()
+    refreshSuggestions()
+  }
+
   useEffect(() => {
     if (user && user.latitude == null) {
       setLocationOpen(true)
@@ -57,20 +69,23 @@ export default function CalendarPage() {
       <Navbar
         onLoginClick={() => setLoginOpen(true)}
         onRegisterClick={() => setRegisterOpen(true)}
+        onProfileClick={() => handleProfileOpen()}
+        onProfileClose={() => setProfileOpen(false)}
+        profileOpen={profileOpen}
       />
 
       {/* Modals */}
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
       <RegisterModal open={registerOpen} onClose={() => setRegisterOpen(false)} />
-      <LocationModal open={locationOpen} onClose={() => setLocationOpen(false)} />
+      <LocationModal open={locationOpen} onClose={() => {setLocationOpen(false); handleRefresh();}} />
 
       {/* Main content area - panel and grid side by side */}
       <main className="flex-1 flex items-start justify-center gap-6 px-6 py-6 overflow-hidden">
-        {/* Panel - in normal flow, animates width */}
+        {/* Day Panel - in normal flow, animates width */}
         <div className={`shrink-0 transition-all duration-300 ease-in-out 
           ${selectedDay ? 'w-102' : 'w-0'}`}>
           <div className={`transition-opacity duration-300
-      ${selectedDay ? 'opacity-100' : 'opacity-0'}`}>
+            ${selectedDay ? 'opacity-100' : 'opacity-0'}`}>
             <DayPanel
               selectedDay={panelDay}
               onClose={handleClose}
@@ -94,6 +109,20 @@ export default function CalendarPage() {
             holidays={holidays}
           />
         </div>
+        {user &&
+          <div className={`shrink-0 transition-all duration-300 ease-in-out 
+            fixed top-[64px] right-6`}>
+            {/* ${profileOpen ? 'h-0' : 'fixed top-[64px] right-6'}}> */}
+            <div className={`transition-opacity duration-300
+              ${profileOpen ? 'opacity-100' : 'opacity-0'}`} >
+              <ProfilePanel
+                user={user}
+                onClose={() => setProfileOpen(false)}
+                profileOpen={profileOpen}
+                onChangeLocation={() => setLocationOpen(true)}
+                handleRefresh={handleRefresh} />
+            </div>
+          </div>}
       </main>
     </div>
   )

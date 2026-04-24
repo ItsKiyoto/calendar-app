@@ -10,4 +10,7 @@ public class LocationDto
     [Required]
     [Range(-180, 180)]
     public double? Longitude { get; set; }
+
+    [Required]
+    public string? City { get; set; }
 }

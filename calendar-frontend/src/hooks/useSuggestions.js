@@ -8,6 +8,14 @@ export function useSuggestions() {
     const [suggestions, setSuggestions] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [refreshToken, setRefreshToken] = useState(0)
+
+    const refresh = () => {
+        localStorage.removeItem('suggestions')
+        localStorage.removeItem('suggestionsTime')
+        setRefreshToken(prev => prev + 1)
+        console.log('suggestions refreshed')
+    }
 
     useEffect(() => {
         async function fetchSuggestions() {
@@ -30,7 +38,7 @@ export function useSuggestions() {
             setLoading(false)
         }
         fetchSuggestions();
-    }, [user])
+    }, [user, refreshToken])
 
-    return { suggestions, loading, error }
+    return { suggestions, loading, error, refresh }
 }

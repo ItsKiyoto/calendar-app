@@ -32,7 +32,8 @@ public class UserController : BaseApiController
             DisplayName = user.DisplayName,
             Email = user.Email,
             Latitude = user.Latitude,
-            Longitude = user.Longitude
+            Longitude = user.Longitude,
+            City = user.City
         });
     }
 
@@ -50,6 +51,7 @@ public class UserController : BaseApiController
 
         user.Latitude = dto.Latitude;
         user.Longitude = dto.Longitude;
+        user.City = dto.City;
 
         var result = await _userManager.UpdateAsync(user);
 

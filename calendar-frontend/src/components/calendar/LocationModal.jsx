@@ -46,9 +46,10 @@ export default function LocationModal({ open, onClose }) {
     e.preventDefault()
     if (!selected) return
     setError(null)
+    const location = (`${selected.name}, ${selected.country}`)
     try {
-      await updateLocation(selected.latitude, selected.longitude)
-      updateUser({ latitude: selected.latitude, longitude: selected.longitude })
+      await updateLocation(selected.latitude, selected.longitude, location)
+      updateUser({ latitude: selected.latitude, longitude: selected.longitude, city : location })
       onClose()
     } catch (err) {
       setError(err)

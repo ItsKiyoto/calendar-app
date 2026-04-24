@@ -8,6 +8,15 @@ export function useWeather() {
     const [weather, setWeather] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [refreshToken, setRefreshToken] = useState(0)
+
+    const refresh = () => {
+        localStorage.removeItem('weatherInfo')
+        localStorage.removeItem('weatherTime')
+        setRefreshToken(prev => prev + 1)
+        console.log('weather refreshed')
+
+    }
 
     useEffect(() => {
         async function fetchWeather() {
@@ -30,7 +39,7 @@ export function useWeather() {
             setLoading(false)
         }
         fetchWeather();
-    }, [user])
+    }, [user, refreshToken])
 
-    return { weather, loading, error }
+    return { weather, loading, error, refresh }
 }
