@@ -1,0 +1,15 @@
+<svg width="33.783199" height="17.228516" viewBox="0 0 33.783199 17.228517" xmlns="http://www.w3.org/2000/svg"/>
+  <defs id="defs1"> <linearGradient
+       id="cloud3Gradient">
+      <stop style={{stopColor: '#f2f9fe', stopOpacity: '1'}} offset="0.60000002"/>
+      <stop style={{stopColor: '#c8e9fb', stopOpacity: '0.21568628'}} offset="1"/>
+    </linearGradient>
+    <linearGradient href="#cloud3Gradient" id="cloud3Fill" x1="15.329094" y1="39.492249" x2="15.329094" y2="73.275452" gradientUnits="userSpaceOnUse" gradientTransform="translate(14.945407,9.8141264)" />
+  </defs>
+  <g transform="translate(-13.382901,-57.583724)" style={{display:'inline'}}>
+    <path style={{ fill: 'url(#cloud3Fill)'}} d="m 21.998135,57.583724 a 8.6137247,8.6137247 0 0 0 -8.615235,8.615234 8.6137247,8.6137247 0 0 0 6.347657,8.308594 c 0.487369,0.184318 1.01489,0.285156 1.568359,0.285156 h 0.128906 a 8.6137247,8.6137247 0 0 0 0.570313,0.01953 8.6137247,8.6137247 0 0 0 0.568359,-0.01953 h 20.183594 c 2.446537,0 4.416016,-1.969479 4.416016,-4.416016 0,-2.446537 -1.969479,-4.416015 -4.416016,-4.416015 h -2.533203 a 6.0406108,6.0406108 0 0 0 -5.984375,-5.216797 6.0406108,6.0406108 0 0 0 -4.390625,1.894531 8.6137247,8.6137247 0 0 0 -7.84375,-5.054687 z" />
+  </g>
+  <g style={{display: 'none'}} transform="translate(-34.498142,-67.546549)">
+    <circle style={{fill: '#000000', strokeWidth: '1.16806'}} cx="70.069168" cy="87.984741" r="6.263659" />
+  </g>
+</svg>

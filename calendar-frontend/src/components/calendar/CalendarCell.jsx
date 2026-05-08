@@ -1,7 +1,9 @@
 import { format, isSameDay } from 'date-fns'
-import { getWeatherBackground, getTempColour, getPrecipColour, getWindColour } from '@/utils/weatherUtils'
+import { getWeatherBackground, getTempColour, getPrecipColour, getWindColour, getWeatherElements } from '@/utils/weatherUtils'
+import WeatherAnimation from './WeatherAnimation';
 
 export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay, onClick, selectedDay, dayEvents, dayHolidays }) {
+
   const background = weatherDay
     ? getWeatherBackground(weatherDay.weatherDescription)
     : 'transparent'
@@ -26,13 +28,24 @@ export default function CalendarCell({ day, isCurrentMonth, isToday, weatherDay,
         ...(weatherDay ? { backgroundColor: background } : {}),
       }}
     >
-      <div
-        className='flex justify-between items-start'
-      >
+
+      {weatherDay && (() => {
+        // const elements = getWeatherElements(weatherDay.weatherDescription)
+        return (
+          <div className="absolute inset-0 pointer-events-none">
+            <WeatherAnimation description={weatherDay.weatherDescription} />
+            {/* {elements.sun && <div className="weather-sun" />}
+            {elements.cloud && <div className={`weather-cloud weather-cloud--${elements.cloudType}`} />}
+            {elements.particles && <div className={`weather-particles weather-particles--${elements.particles}`} />} */}
+          </div>
+        )
+      })()}
+
+      <div className='flex justify-between items-start' >
         {/* Date number - top left */}
-        <span 
+        <span
           className={`w-5 h- text-sm font-medium rounded-full flex items-center justify-center 
-            ${selectedDay && isSameDay(day, selectedDay) ? 'text-white bg-accent rounded-full' : isToday ? 'text-border': !isCurrentMonth ? 'text-muted' : 'text-primary'}`}
+            ${selectedDay && isSameDay(day, selectedDay) ? 'text-white bg-accent rounded-full' : isToday ? 'text-border' : !isCurrentMonth ? 'text-muted' : 'text-primary'}`}
           style={{ textShadow: weatherDay ? '0 0 3px rgba(255,255,255,0.9)' : 'none' }}>
           {format(day, 'd')}
         </span>

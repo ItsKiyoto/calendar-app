@@ -152,3 +152,38 @@
 .animate-fade-in {
     animation: fadeIn 0.2s ease-in-out;
 }
+
+@keyframes sun-pulse {
+    0%, 100% { opacity: 0.9; box-shadow: 0 0 8px 4px rgba(253, 224, 71, 0.4); }
+    50% { opacity: 1; box-shadow: 0 0 14px 8px rgba(253, 224, 71, 0.6); }
+}
+
+.weather-sun {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgb(255, 225, 75);
+    top: -8px;
+    right: -8px;
+    animation: sun-pulse 3s ease-in-out infinite;
+}
+
+@keyframes drift-cloud {
+  0% { transform: translateX(150px); }
+  100% { transform: translateX(-100px); }
+  }
+  
+.weather-cloud svg {
+    width: 45px;   /* change this and it scales perfectly */
+    height: auto;
+}
+
+.weather-cloud { 
+  position: absolute;
+}
+
+
+.weather-cloud--moving {
+  animation: drift-cloud 12s linear infinite;
+}

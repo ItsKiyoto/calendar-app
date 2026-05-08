@@ -1,0 +1,16 @@
+<svg
+   className="weather-sun"
+   width="21.263931"
+   height="21.263941"
+   viewBox="0 0 21.263931 21.263943"
+   xmlns="http://www.w3.org/2000/svg">
+  <g
+     transform="translate(-72.118959,-12.342008)">
+    <circle
+       style={{fill: '#ffff4b', fillOpacity: 1}}
+       id="path85"
+       cx="82.750923"
+       cy="22.973978"
+       r="10.631969" />
+  </g>
+</svg>

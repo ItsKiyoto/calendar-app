@@ -109,9 +109,10 @@ export default function CalendarPage() {
             holidays={holidays}
           />
         </div>
+
+
         {user &&
-          <div className={`shrink-0 transition-all duration-300 ease-in-out 
-            fixed top-[64px] right-6`}>
+          <div className={`shrink-0 transition-all duration-300 ease-in-out fixed top-[64px] right-6`}>
             {/* ${profileOpen ? 'h-0' : 'fixed top-[64px] right-6'}}> */}
             <div className={`transition-opacity duration-300
               ${profileOpen ? 'opacity-100' : 'opacity-0'}`} >
@@ -122,7 +123,8 @@ export default function CalendarPage() {
                 onChangeLocation={() => setLocationOpen(true)}
                 handleRefresh={handleRefresh} />
             </div>
-          </div>}
+          </div>
+          }
       </main>
     </div>
   )

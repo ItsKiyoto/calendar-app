@@ -1,0 +1,12 @@
+<svg width="30.281246" height="18.402346" viewBox="0 0 30.281246 18.402347" xmlns="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <linearGradient id="GreyCloud1Gradient">
+      <stop style={{stopColor: '#c8d4e0', stopOpacity:'1'}} offset="0.59936911" />
+      <stop style={{stopColor: '#b0bec5', stopOpacity:'0.21568628'}} offset="1" />
+    </linearGradient>
+    <linearGradient href="#GreyCloud1Gradient" id="GreyCloud1Fill" x1="51.311584" y1="28.757839" x2="51.311584" y2="59.039089" gradientUnits="userSpaceOnUse" gradientTransform="translate(-1.6728188,-22.80138)" />
+  </defs>
+  <g style={{display: 'inline'}} transform="translate(-34.498142,-11.895911)">
+    <path style={{fill: 'url(#GreyCloud1Fill)'}} d="m 52.793059,11.895911 a 7.9910951,7.9910951 0 0 0 -6.828125,3.839844 5.3624454,5.3624454 0 0 0 -2.425781,-0.580078 5.3624454,5.3624454 0 0 0 -5.361328,5.363281 5.3624454,5.3624454 0 0 0 0.0918,0.992187 c -2.139434,0.309701 -3.771484,2.14123 -3.771484,4.369141 0,2.446537 1.969478,4.417969 4.416015,4.417969 h 21.449219 c 2.446537,0 4.416016,-1.971432 4.416016,-4.417969 0,-2.358609 -1.830597,-4.273577 -4.154297,-4.408203 a 7.9910951,7.9910951 0 0 0 0.158203,-1.583984 7.9910951,7.9910951 0 0 0 -7.990235,-7.992188 z" />
+  </g>
+</svg>

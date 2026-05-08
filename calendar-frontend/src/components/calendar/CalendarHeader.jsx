@@ -7,7 +7,7 @@ export default function CalendarHeader({ currentDate, onPrev, onNext, isCurrentM
     return (
         <div className="flex items-center justify-between ml-3 mb-6">
             <div>
-                <h1 className="text-3xl font-semibold font-serif" >{format(currentDate, 'MMMM yyyy')}</h1>
+                <h1 className="text-3xl text-gray-800 font-semibold font-serif" >{format(currentDate, 'MMMM yyyy')}</h1>
             </div>
             <div className='flex items-center gap-1' >
                 {!isCurrentMonth && (
