@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import CalendarPage from '@/pages/CalendarPage'
+import CalendarPage from '@/pages/CalendarPage.jsx'
 
 export default function App() {
   return (
