@@ -72,7 +72,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("DevPolicy", policy =>
     {
         policy.WithOrigins("http://localhost:5173",
-            "https://almanac-frontend-5fmtehlwd-kiyotos-projects-fcd595c2.vercel.app/")
+            "https://almanac-frontend-ashen.vercel.app/")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
